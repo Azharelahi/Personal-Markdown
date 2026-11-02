@@ -42,7 +42,7 @@ export default function AppShell() {
       <aside className="sidebar">
         <NavLink to="/" className="brand" aria-label="Papertrail home">
           <span className="brand-mark"><span /></span>
-          <span>papertrail</span>
+          <span>papertrail by Azhar</span>
         </NavLink>
 
         <button className="new-note-button" onClick={createNote}>
