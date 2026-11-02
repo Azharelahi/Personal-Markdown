@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/components/appshell.tsx","./src/pages/editorpage.tsx","./src/pages/notespage.tsx","./src/store/notes.ts"],"version":"5.7.3"}
