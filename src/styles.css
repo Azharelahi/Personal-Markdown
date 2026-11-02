@@ -467,3 +467,143 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     transition-duration: .01ms !important;
   }
 }
+
+.mobile-menu-button,
+.mobile-menu-backdrop,
+.mobile-drawer-close { display: none; }
+
+@media (max-width: 760px) {
+  .mobile-menu-button {
+    display: grid;
+    place-items: center;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e3e9e1;
+    border-radius: 9px;
+    background: #fff;
+    color: #536f57;
+    box-shadow: 0 2px 6px #31433208;
+    transition: background .16s, color .16s, transform .16s, box-shadow .16s;
+  }
+  .mobile-menu-button:hover { background: #edf3eb; box-shadow: 0 4px 10px #31433210; }
+  .mobile-menu-button:active { transform: scale(.94); }
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: #1d2b2259;
+    opacity: 1;
+    animation: fade-in .18s ease both;
+    backdrop-filter: blur(2px);
+  }
+  .sidebar {
+    z-index: 11;
+    width: min(86vw, 320px);
+    align-items: stretch;
+    padding: 25px 18px 15px;
+    border-right-color: #e3e9e1;
+    box-shadow: 15px 0 40px #1c2a2030;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform .24s cubic-bezier(.2,.8,.2,1), visibility 0s linear .24s;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform .24s cubic-bezier(.2,.8,.2,1), visibility 0s;
+  }
+  .brand { padding: 0 8px; font-size: 19px; }
+  .mobile-drawer-close {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #e6ebe4;
+    border-radius: 8px;
+    background: #fff;
+    color: #78857a;
+    transition: color .16s, background .16s, transform .16s;
+  }
+  .mobile-drawer-close:hover { background: #edf3eb; color: #476d50; }
+  .mobile-drawer-close:active { transform: scale(.94); }
+  .new-note-button {
+    width: auto;
+    height: 43px;
+    justify-content: flex-start;
+    padding: 0 12px;
+    margin: 28px 0 28px;
+  }
+  .new-note-button span:not(.shortcut-hint) { display: inline; }
+  .shortcut-hint { display: inline; }
+  .sidebar-label { padding: 0 10px; font-size: 9px; }
+  .category-label {
+    justify-content: space-between;
+    margin-top: 28px;
+    padding-right: 12px;
+  }
+  .category-label svg { display: block; }
+  .primary-nav { width: auto; align-items: stretch; }
+  .nav-item {
+    width: auto;
+    min-height: 39px;
+    justify-content: flex-start;
+    padding: 0 11px;
+  }
+  .nav-item span { display: inline; }
+  .nav-count { display: inline !important; }
+  .tags-label { margin-top: 28px; }
+  .tag-list {
+    width: auto;
+    align-items: stretch;
+    max-height: min(30vh, 230px);
+    padding-right: 3px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #d3ddd1 transparent;
+  }
+  .tag-nav-item {
+    width: auto;
+    min-height: 36px;
+    justify-content: flex-start;
+    padding: 0 11px;
+    border-radius: 7px;
+  }
+  .tag-nav-item span {
+    display: inline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .empty-tags { display: inline; }
+  .sidebar-bottom { width: auto; display: block; }
+  .local-status { display: flex; }
+  .profile-copy, .profile-chevron { display: initial; }
+  .profile-card { border-top: 1px solid #e9ede7; padding: 15px 3px 0; }
+  .main-area { margin-left: 0; }
+  .topbar { padding: 0 14px; }
+  .topbar-actions { justify-content: flex-end; gap: 8px; }
+  .search-box { flex: 1; width: auto; max-width: 270px; }
+  .top-new-button { flex: 0 0 38px; width: 38px; height: 38px; }
+}
+
+@media (max-width: 420px) {
+  .topbar { padding: 0 10px; }
+  .topbar-actions { gap: 6px; }
+  .mobile-menu-button { flex-basis: 36px; width: 36px; height: 36px; }
+  .top-new-button { flex-basis: 36px; width: 36px; height: 36px; }
+  .search-box { min-width: 0; padding: 0 7px; gap: 6px; }
+  .search-box input { font-size: 10px; }
+  .search-shortcut { display: none; }
+}

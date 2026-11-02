@@ -6,6 +6,7 @@ import {
   FileText,
   Hash,
   Lightbulb,
+  Menu,
   Plus,
   Search,
   Sparkles,
@@ -25,6 +26,7 @@ const categoryItems = [
 export default function AppShell() {
   const [query, setQuery] = useState('')
   const [notice, setNotice] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const notes = useNotesStore((state) => state.notes)
   const addNote = useNotesStore((state) => state.addNote)
   const location = useLocation()
@@ -35,6 +37,7 @@ export default function AppShell() {
   )
 
   const createNote = () => {
+    setMobileMenuOpen(false)
     const id = addNote()
     setNotice('A fresh page, just for you.')
     navigate(`/notes/${id}`)
@@ -46,13 +49,34 @@ export default function AppShell() {
     return () => window.clearTimeout(timer)
   }, [notice])
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [mobileMenuOpen])
+
+  const closeMobileMenu = () => setMobileMenuOpen(false)
+
   return (
     <div className="app-shell">
-      <aside className="sidebar">
+      {mobileMenuOpen && (
+        <button
+          className="mobile-menu-backdrop"
+          aria-label="Close navigation menu"
+          onClick={closeMobileMenu}
+        />
+      )}
+      <aside className={`sidebar ${mobileMenuOpen ? 'mobile-open' : ''}`} id="app-navigation">
         <NavLink to="/" className="brand" aria-label="Papertrail home">
           <span className="brand-mark"><span /></span>
           <span>papertrail by Azhar</span>
         </NavLink>
+        <button className="mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close navigation menu">
+          <X size={18} />
+        </button>
 
         <button className="new-note-button" onClick={createNote}>
           <Plus size={17} strokeWidth={2.2} />
@@ -65,8 +89,9 @@ export default function AppShell() {
           <NavLink
             to="/"
             end
-            className={({ isActive }) =>
-              `nav-item ${isActive && !new URLSearchParams(location.search).has('category') && !new URLSearchParams(location.search).has('tag') ? 'active' : ''}`
+            onClick={closeMobileMenu}
+            className={() =>
+              `nav-item ${location.pathname === '/' && !new URLSearchParams(location.search).has('category') && !new URLSearchParams(location.search).has('tag') ? 'active' : ''}`
             }
           >
             <FileText size={17} />
@@ -84,8 +109,9 @@ export default function AppShell() {
             <NavLink
               key={name}
               to={`/?category=${encodeURIComponent(name)}`}
-              className={({ isActive }) =>
-                `nav-item ${isActive && new URLSearchParams(location.search).get('category') === name ? 'active' : ''}`
+              onClick={closeMobileMenu}
+              className={() =>
+                `nav-item ${new URLSearchParams(location.search).get('category') === name ? 'active' : ''}`
               }
             >
               <Icon size={17} />
@@ -101,8 +127,9 @@ export default function AppShell() {
             <NavLink
               key={tag}
               to={`/?tag=${encodeURIComponent(tag)}`}
-              className={({ isActive }) =>
-                `tag-nav-item ${isActive && new URLSearchParams(location.search).get('tag') === tag ? 'active' : ''}`
+              onClick={closeMobileMenu}
+              className={() =>
+                `tag-nav-item ${new URLSearchParams(location.search).get('tag') === tag ? 'active' : ''}`
               }
             >
               <Hash size={14} />
@@ -125,6 +152,15 @@ export default function AppShell() {
         <header className="topbar">
           <div className="breadcrumb"><span>Workspace</span><span className="breadcrumb-slash">/</span><strong>{location.pathname.startsWith('/notes/') ? 'Editor' : 'Notes'}</strong></div>
           <div className="topbar-actions">
+            <button
+              className="mobile-menu-button"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="app-navigation"
+            >
+              <Menu size={19} />
+            </button>
             <label className="search-box">
               <Search size={16} />
               <input
