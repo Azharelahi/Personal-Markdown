@@ -17,7 +17,7 @@ const starterNotes: Note[] = [
     id: 'welcome-note',
     title: 'A little space to think',
     content:
-      '# Welcome to Papertrail\n\nA calm place for everything on your mind. Capture a thought, shape an idea, or keep a note for later.\n\n## Make it yours\n\n- Create notes with **Markdown** support\n- Organize them with categories and tags\n- Find anything with a quick search\n\n> Your notes stay right here in your browser.',
+      '# Welcome to AzhLog\n\nA calm place for everything on your mind. Capture a thought, shape an idea, or keep a note for later.\n\n## Make it yours\n\n- Create notes with **Markdown** support\n- Organize them with categories and tags\n- Find anything with a quick search\n\n> Your notes stay right here in your browser.',
     category: 'Personal',
     tags: ['getting started', 'ideas'],
     createdAt: '2026-10-28T10:00:00.000Z',
@@ -94,7 +94,7 @@ export const useNotesStore = create<NotesState>()(
       getNote: (id) => get().notes.find((note) => note.id === id),
     }),
     {
-      name: 'papertrail-notes',
+      name: 'AzhLog-notes',
       version: 1,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ notes: state.notes }),

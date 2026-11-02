@@ -70,9 +70,9 @@ export default function AppShell() {
         />
       )}
       <aside className={`sidebar ${mobileMenuOpen ? 'mobile-open' : ''}`} id="app-navigation">
-        <NavLink to="/" className="brand" aria-label="Papertrail home">
+        <NavLink to="/" className="brand" aria-label="AzhLog home">
           <span className="brand-mark"><span /></span>
-          <span>papertrail by Azhar</span>
+          <span>AzhLog</span>
         </NavLink>
         <button className="mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close navigation menu">
           <X size={18} />
