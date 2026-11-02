@@ -49,15 +49,6 @@ export default function AppShell() {
     return () => window.clearTimeout(timer)
   }, [notice])
 
-  useEffect(() => {
-    if (!mobileMenuOpen) return
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMobileMenuOpen(false)
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [mobileMenuOpen])
-
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
   return (
@@ -74,7 +65,7 @@ export default function AppShell() {
           <span className="brand-mark"><span /></span>
           <span>AzhLog</span>
         </NavLink>
-        <button className="mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close navigation menu">
+        <button className="mobile-drawer-close" onClick={closeMobileMenu} aria-label="Close navigation menu" data-keyboard-dismiss>
           <X size={18} />
         </button>
 

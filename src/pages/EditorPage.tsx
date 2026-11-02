@@ -37,15 +37,6 @@ export default function EditorPage() {
     return () => window.clearTimeout(timer)
   }, [note?.updatedAt])
 
-  useEffect(() => {
-    if (!showDelete) return
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setShowDelete(false)
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [showDelete])
-
   if (!note) {
     return (
       <div className="not-found-state">
@@ -179,7 +170,7 @@ export default function EditorPage() {
             <h2 id="delete-title">Delete this note?</h2>
             <p>“{note.title || 'Untitled note'}” will be removed from your notes. This can’t be undone.</p>
             <div className="dialog-actions">
-              <button className="secondary-button" onClick={() => setShowDelete(false)}>Keep note</button>
+              <button className="secondary-button" onClick={() => setShowDelete(false)} data-keyboard-dismiss>Keep note</button>
               <button className="danger-button" onClick={deleteCurrentNote}>Delete note</button>
             </div>
           </div>
