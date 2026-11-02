@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { ArrowDownWideNarrow, ArrowUpRight, FilePlus2, Search, X } from 'lucide-react'
 import { Link, useLocation, useOutletContext } from 'react-router-dom'
 import { useNotesStore } from '../store/notes'
@@ -39,6 +39,7 @@ function NoteCard({ note }: { note: Note }) {
 export default function NotesPage() {
   const notes = useNotesStore((state) => state.notes)
   const { query, setQuery, createNote } = useOutletContext<LayoutContext>()
+  const [sortByTitle, setSortByTitle] = useState(false)
   const location = useLocation()
   const params = new URLSearchParams(location.search)
   const category = params.get('category')
@@ -53,8 +54,10 @@ export default function NotesPage() {
         !needle ||
         `${note.title} ${note.content} ${note.category} ${note.tags.join(' ')}`.toLowerCase().includes(needle),
       )
-      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-  }, [notes, query, category, tag])
+      .sort((a, b) => sortByTitle
+        ? (a.title || 'Untitled note').localeCompare(b.title || 'Untitled note')
+        : b.updatedAt.localeCompare(a.updatedAt))
+  }, [notes, query, category, tag, sortByTitle])
 
   return (
     <section className="notes-page">
@@ -75,7 +78,15 @@ export default function NotesPage() {
               <Search size={13} /> “{query}” <X size={13} />
             </button>
           )}
-          <span className="sort-label"><ArrowDownWideNarrow size={15} /> Recently edited</span>
+          <button
+            className="sort-label"
+            onClick={() => setSortByTitle((current) => !current)}
+            aria-label={`Sort by ${sortByTitle ? 'recently edited' : 'title'}`}
+            title="Switch sort order"
+          >
+            <ArrowDownWideNarrow size={15} />
+            {sortByTitle ? 'Title A–Z' : 'Recently edited'}
+          </button>
         </div>
       </div>
 

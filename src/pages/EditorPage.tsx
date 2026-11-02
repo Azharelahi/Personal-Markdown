@@ -23,11 +23,19 @@ export default function EditorPage() {
   const [tagInput, setTagInput] = useState('')
   const [viewMode, setViewMode] = useState<ViewMode>('split')
   const [showDelete, setShowDelete] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const markdownComponents = useMemo(() => ({ a: ({ ...props }) => <a {...props} target="_blank" rel="noreferrer" /> }), [])
 
   useEffect(() => {
     setQuery('')
   }, [setQuery])
+
+  useEffect(() => {
+    if (!note) return
+    setIsSaving(true)
+    const timer = window.setTimeout(() => setIsSaving(false), 450)
+    return () => window.clearTimeout(timer)
+  }, [note?.updatedAt])
 
   useEffect(() => {
     if (!showDelete) return
@@ -78,7 +86,10 @@ export default function EditorPage() {
       <div className="editor-toolbar">
         <Link to="/" className="back-link"><ArrowLeft size={16} /><span>All notes</span></Link>
         <div className="editor-toolbar-right">
-          <span className="save-status"><Check size={14} /> Saved</span>
+          <span className={`save-status ${isSaving ? 'saving' : ''}`} role="status" aria-live="polite">
+            <span className="save-indicator">{isSaving ? <span className="saving-dot" /> : <Check size={14} />}</span>
+            {isSaving ? 'Saving' : 'Saved'}
+          </span>
           <div className="view-switch" aria-label="Editor view">
             <button className={viewMode === 'write' ? 'selected' : ''} onClick={() => setViewMode('write')} title="Write only"><PenLine size={15} /><span>Write</span></button>
             <button className={viewMode === 'split' ? 'selected' : ''} onClick={() => setViewMode('split')} title="Split view"><span className="split-icon"><i /><i /></span><span>Split</span></button>

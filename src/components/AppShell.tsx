@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   BookOpen,
   ChevronDown,
@@ -10,6 +10,7 @@ import {
   Search,
   Sparkles,
   BriefcaseBusiness,
+  X,
 } from 'lucide-react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useNotesStore } from '../store/notes'
@@ -23,6 +24,7 @@ const categoryItems = [
 
 export default function AppShell() {
   const [query, setQuery] = useState('')
+  const [notice, setNotice] = useState('')
   const notes = useNotesStore((state) => state.notes)
   const addNote = useNotesStore((state) => state.addNote)
   const location = useLocation()
@@ -34,8 +36,15 @@ export default function AppShell() {
 
   const createNote = () => {
     const id = addNote()
+    setNotice('A fresh page, just for you.')
     navigate(`/notes/${id}`)
   }
+
+  useEffect(() => {
+    if (!notice) return
+    const timer = window.setTimeout(() => setNotice(''), 2400)
+    return () => window.clearTimeout(timer)
+  }, [notice])
 
   return (
     <div className="app-shell">
@@ -124,12 +133,20 @@ export default function AppShell() {
                 placeholder="Search anything..."
                 aria-label="Search notes"
               />
-              <span className="search-shortcut"><Command size={11} /> K</span>
+              {query
+                ? <button className="search-clear" onClick={() => setQuery('')} aria-label="Clear search"><X size={14} /></button>
+                : <span className="search-shortcut"><Command size={11} /> K</span>}
             </label>
             <button className="top-new-button" onClick={createNote}><Plus size={16} /><span>New note</span></button>
           </div>
         </header>
         <Outlet context={{ query, setQuery, createNote }} />
+        {notice && (
+          <div className="app-toast" role="status" aria-live="polite">
+            <span className="toast-check"><Sparkles size={14} /></span>
+            {notice}
+          </div>
+        )}
       </main>
       <div className="background-glow" aria-hidden="true" />
       <Sparkles className="decorative-sparkle" size={16} aria-hidden="true" />
