@@ -1,0 +1,5 @@
+export { useNotesStore } from './store/notes'
+export { useNotesShortcuts } from './hooks/useNotesShortcuts'
+export { default as NotesLayout } from './components/NotesLayout'
+export { categories } from './types/note'
+export type { Category, Note } from './types/note'

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import type { Note } from '../types'
+import type { Note } from '../types/note'
 
 type NoteInput = Pick<Note, 'title' | 'content' | 'category' | 'tags'>
 

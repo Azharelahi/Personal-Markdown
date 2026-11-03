@@ -3,9 +3,8 @@ import { ArrowLeft, Check, Clock3, Eye, FileText, PenLine, Trash2 } from 'lucide
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
-import { useNotesStore } from '../store/notes'
-import { categories } from '../types'
-import type { Note } from '../types'
+import { categories, useNotesStore } from '../features/notes'
+import type { Note } from '../features/notes'
 
 type LayoutContext = { query: string; setQuery: (value: string) => void; createNote: () => void }
 type ViewMode = 'write' | 'preview' | 'split'

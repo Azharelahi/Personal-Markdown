@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { ArrowDownWideNarrow, ArrowUpRight, FilePlus2, Search, X } from 'lucide-react'
 import { Link, useLocation, useOutletContext } from 'react-router-dom'
-import { useNotesStore } from '../store/notes'
-import type { Note } from '../types'
+import { useNotesStore } from '../features/notes'
+import type { Note } from '../features/notes'
 
 type LayoutContext = {
   query: string

@@ -23,7 +23,7 @@ const categoryItems = [
   { name: 'Journal', icon: FileText },
 ]
 
-export default function AppShell() {
+export default function NotesLayout() {
   const [query, setQuery] = useState('')
   const [notice, setNotice] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
